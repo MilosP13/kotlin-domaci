@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "861937753391",
+    "project_id": "kotlinelabapp",
+    "storage_bucket": "kotlinelabapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:861937753391:android:1debecda5dc66901a4d5da",
+        "android_client_info": {
+          "package_name": "com.example.kotlinelabapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKVLY2K99I55mtmQc_Eme20R47zT4fEQ8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
