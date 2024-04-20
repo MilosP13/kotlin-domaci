@@ -1,13 +1,14 @@
 {
   "project_info": {
-    "project_number": "861937753391",
-    "project_id": "kotlinelabapp",
-    "storage_bucket": "kotlinelabapp.appspot.com"
+    "project_number": "118182153906",
+    "firebase_url": "https://gameappkotlin-78b46-default-rtdb.firebaseio.com",
+    "project_id": "gameappkotlin-78b46",
+    "storage_bucket": "gameappkotlin-78b46.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:861937753391:android:1debecda5dc66901a4d5da",
+        "mobilesdk_app_id": "1:118182153906:android:4d70e8dea5e6cf253c83ab",
         "android_client_info": {
           "package_name": "com.example.kotlinelabapp"
         }
@@ -15,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCKVLY2K99I55mtmQc_Eme20R47zT4fEQ8"
+          "current_key": "AIzaSyA6z3v6dk1DjQ-bA7JvEFQRmG9kybrXwnU"
         }
       ],
       "services": {

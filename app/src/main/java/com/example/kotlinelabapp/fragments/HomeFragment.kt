@@ -1,7 +1,5 @@
 package com.example.kotlinelabapp.fragments
 
-import android.annotation.SuppressLint
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -20,23 +18,21 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kotlinelabapp.R
 import com.example.kotlinelabapp.databinding.FragmentHomeBinding
-import com.example.kotlinelabapp.utilis.Movie
-import com.example.kotlinelabapp.utilis.MovieAdapter
-import com.example.kotlinelabapp.utilis.MovieData
+import com.example.kotlinelabapp.utilis.*
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
 
-class HomeFragment : Fragment(), AddFragment.DialogAddBtnClickListener, MovieAdapter.MovieAdapterClicksInterface{
+class HomeFragment : Fragment(), AddFragment.DialogAddBtnClickListener, GameAdapter.GameAdapterClicksInterface{
 
     private lateinit var auth: FirebaseAuth
     private lateinit var databaseRef: DatabaseReference
     private lateinit var navController: NavController
     private lateinit var binding: FragmentHomeBinding
     private var popUpFragment: AddFragment? = null
-    private lateinit var adapter: MovieAdapter
-    private lateinit var mList: MutableList<MovieData>
+    private lateinit var adapter: GameAdapter
+    private lateinit var mList: MutableList<GameData>
     val CHANNEL_ID = "channelID"
     val CHANNEL_NAME = "channelName"
     private lateinit var manager: NotificationManager
@@ -79,7 +75,7 @@ class HomeFragment : Fragment(), AddFragment.DialogAddBtnClickListener, MovieAda
 
     private fun saveData() {
         val insertedText: String = binding.etText.text.toString()
-        binding.movieRec.text = insertedText
+        binding.gameRec.text = insertedText
 
         val sharedPreferences : SharedPreferences = requireContext().getSharedPreferences("sharedPrefs",
             Context.MODE_PRIVATE)
@@ -95,20 +91,20 @@ class HomeFragment : Fragment(), AddFragment.DialogAddBtnClickListener, MovieAda
         val sharedPreferences : SharedPreferences = requireContext().getSharedPreferences("sharedPrefs",
             Context.MODE_PRIVATE)
         val savedString: String? = sharedPreferences.getString("STRING_KEY", null)
-        binding.movieRec.text = savedString
+        binding.gameRec.text = savedString
     }
 
     private fun getDataFromFirebase() {
         databaseRef.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 mList.clear()
-                for (movieSnapshot in snapshot.children) {
-                    val movieData = movieSnapshot.key?.let {
-                        MovieData(it, movieSnapshot.getValue(Movie::class.java)!!)
+                for (gameSnapshot in snapshot.children) {
+                    val gameData = gameSnapshot.key?.let {
+                        GameData(it, gameSnapshot.getValue(Game::class.java)!!)
                     }
-                    val movie = Movie(movieData?.movie!!.name, movieData.movie.date)
-                    if(movie!=null) {
-                        mList.add(movieData!!)
+                    val game = Game(gameData?.game!!.name, gameData.game.date)
+                    if(game!=null) {
+                        mList.add(gameData!!)
                     }
                 }
                 adapter.notifyDataSetChanged()
@@ -124,11 +120,11 @@ class HomeFragment : Fragment(), AddFragment.DialogAddBtnClickListener, MovieAda
     private fun init(view: View) {
         navController = Navigation.findNavController(view)
         auth = FirebaseAuth.getInstance()
-        databaseRef = FirebaseDatabase.getInstance().reference.child("Movies").child(auth.currentUser?.uid.toString())
+        databaseRef = FirebaseDatabase.getInstance().reference.child("Games").child(auth.currentUser?.uid.toString())
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         mList = mutableListOf()
-        adapter = MovieAdapter(mList)
+        adapter = GameAdapter(mList)
         adapter.setListener(this)
         binding.recyclerView.adapter = adapter
         createNotificationChannel()
@@ -137,7 +133,7 @@ class HomeFragment : Fragment(), AddFragment.DialogAddBtnClickListener, MovieAda
     private fun createNotificationChannel() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT).apply {
-                lightColor = Color.RED
+                lightColor = Color.YELLOW
                 enableLights(true)
             }
             manager = requireContext().getSystemService<NotificationManager>()!!
@@ -145,19 +141,19 @@ class HomeFragment : Fragment(), AddFragment.DialogAddBtnClickListener, MovieAda
         }
     }
 
-    override fun onSaveMovie(
-        movieName: String,
-        movieNameEt: TextInputEditText,
+    override fun onSaveGame(
+        gameName: String,
+        gameNameEt: TextInputEditText,
         date: String,
-        movieDateEt: TextInputEditText
+        gameDateEt: TextInputEditText
     ) {
-        val movie: Movie = Movie(movieName, date)
-        databaseRef.push().setValue(movie).addOnCompleteListener {
+        val game: Game = Game(gameName, date)
+        databaseRef.push().setValue(game).addOnCompleteListener {
 
             if(it.isSuccessful) {
                 val notification = NotificationCompat.Builder(requireContext(),CHANNEL_ID)
-                    .setContentTitle("Movie notification")
-                    .setContentText("Movie '${movieName}' is added")
+                    .setContentTitle("Game notification")
+                    .setContentText("Game '${gameName}' is added")
                     .setSmallIcon(R.drawable.baseline_notifications_24)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .build()
@@ -168,23 +164,23 @@ class HomeFragment : Fragment(), AddFragment.DialogAddBtnClickListener, MovieAda
             }else {
                 Toast.makeText(context, it.exception?.message,Toast.LENGTH_SHORT).show()
             }
-            movieNameEt.text = null
-            movieDateEt.text = null
+            gameNameEt.text = null
+            gameDateEt.text = null
             popUpFragment!!.dismiss()
         }
     }
 
-    override fun onUpdateMovie(movieData: MovieData, movieNameEt: TextInputEditText, movieDateEt: TextInputEditText) {
+    override fun onUpdateGame(gameData: GameData, gameNameEt: TextInputEditText, gameDateEt: TextInputEditText) {
         val map = HashMap<String, Any>()
-        map[movieData.movieId] = movieData.movie
+        map[gameData.gameId] = gameData.game
         databaseRef.updateChildren(map).addOnCompleteListener{
             if(it.isSuccessful) {
-                Toast.makeText(context, "Movie updated successfully",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Game updated successfully",Toast.LENGTH_SHORT).show()
             }else {
                 Toast.makeText(context, it.exception?.message,Toast.LENGTH_SHORT).show()
             }
-            movieNameEt.text = null
-            movieDateEt.text = null
+            gameNameEt.text = null
+            gameDateEt.text = null
             popUpFragment!!.dismiss()
         }
     }
@@ -204,12 +200,12 @@ class HomeFragment : Fragment(), AddFragment.DialogAddBtnClickListener, MovieAda
     }
 
 
-    override fun onDeleteMovieBtnCLicked(movieData: MovieData) {
-        databaseRef.child(movieData.movieId).removeValue().addOnCompleteListener {
+    override fun onDeleteGameBtnCLicked(gameData: GameData) {
+        databaseRef.child(gameData.gameId).removeValue().addOnCompleteListener {
             if(it.isSuccessful) {
                 val notification = NotificationCompat.Builder(requireContext(),CHANNEL_ID)
-                    .setContentTitle("Movie notification")
-                    .setContentText("Movie deleted")
+                    .setContentTitle("Game notification")
+                    .setContentText("Game deleted")
                     .setSmallIcon(R.drawable.baseline_notifications_24)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .build()
@@ -222,10 +218,10 @@ class HomeFragment : Fragment(), AddFragment.DialogAddBtnClickListener, MovieAda
         }
     }
 
-    override fun onEditMovieBtnClicked(movieData: MovieData) {
+    override fun onEditGameBtnClicked(gameData: GameData) {
         if(popUpFragment != null)
             childFragmentManager.beginTransaction().remove(popUpFragment!!).commit()
-        popUpFragment = AddFragment.newInstance(movieData.movieId, movieData.movie.name!!, movieData.movie.date!!)
+        popUpFragment = AddFragment.newInstance(gameData.gameId, gameData.game.name!!, gameData.game.date!!)
         popUpFragment!!.setListener(this)
         popUpFragment!!.show(childFragmentManager, AddFragment.TAG)
     }

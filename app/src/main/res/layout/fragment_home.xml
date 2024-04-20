@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="120dp"
         android:scaleType="fitXY"
-        android:src="@drawable/filmska_traka"
+        android:src="@drawable/pozadina"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -23,7 +23,7 @@
         android:layout_width="0dp"
         android:layout_height="120dp"
         android:scaleType="fitXY"
-        android:src="@drawable/filmska_traka"
+        android:src="@drawable/pozadina"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -36,7 +36,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:gravity="center"
-        android:text="Movies"
+        android:text="Games"
         android:textColor="#FFFFFF"
         android:textSize="48sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -71,7 +71,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:backgroundTint="@color/white"
-        android:hint="Movie recommendation for today"
+        android:hint="Game recommendation for today"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:textSize="16sp"
@@ -79,14 +79,14 @@
         app:layout_constraintStart_toStartOf="@+id/filmskaTraka"
         app:layout_constraintEnd_toEndOf="@+id/filmskaTraka"
         app:layout_constraintTop_toTopOf="@+id/filmskaTraka"
-        app:layout_constraintBottom_toTopOf="@+id/movieRec"
+        app:layout_constraintBottom_toTopOf="@+id/gameRec"
         app:layout_constraintVertical_bias="0.5" />
 
     <TextView
-        android:id="@+id/movieRec"
+        android:id="@+id/gameRec"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Movie recommendation will change"
+        android:text="Game recommendation will change"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="@+id/et_text"
         app:layout_constraintTop_toBottomOf="@+id/et_text"
@@ -102,7 +102,7 @@
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="@+id/filmskaTraka"
         app:layout_constraintStart_toStartOf="@+id/et_text"
-        app:layout_constraintTop_toBottomOf="@+id/movieRec"
+        app:layout_constraintTop_toBottomOf="@+id/gameRec"
         app:layout_constraintVertical_bias="0.5" />
 
 

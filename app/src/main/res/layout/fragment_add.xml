@@ -30,10 +30,10 @@
             app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/movieNameEt"
+                android:id="@+id/gameNameEt"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:hint="@string/movieName"
+                android:hint="@string/gameName"
                 android:inputType="text"
                 android:paddingTop="15dp" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -47,10 +47,10 @@
             app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/movieDateEt"
+                android:id="@+id/gameDateEt"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:hint="Movie watch date"
+                android:hint="Game played date"
                 android:inputType="text"
                 android:paddingTop="15dp" />
         </com.google.android.material.textfield.TextInputLayout>

@@ -3,46 +3,45 @@ package com.example.kotlinelabapp.utilis
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kotlinelabapp.databinding.EachMovieItemBinding
-import com.example.kotlinelabapp.fragments.HomeFragment
+import com.example.kotlinelabapp.databinding.EachGameItemBinding
 
-class MovieAdapter (private val list: MutableList<MovieData>):
-    RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
+class GameAdapter(private val list: MutableList<GameData>):
+    RecyclerView.Adapter<GameAdapter.GameViewHolder>() {
 
-    private var listener: MovieAdapterClicksInterface? = null
+    private var listener: GameAdapterClicksInterface? = null
 
-    fun setListener(listener: MovieAdapterClicksInterface) {
+    fun setListener(listener: GameAdapterClicksInterface) {
         this.listener = listener
     }
 
-    interface MovieAdapterClicksInterface{
-        fun onDeleteMovieBtnCLicked(movieData: MovieData)
-        fun onEditMovieBtnClicked(movieData: MovieData)
+    interface GameAdapterClicksInterface{
+        fun onDeleteGameBtnCLicked(gameData: GameData)
+        fun onEditGameBtnClicked(gameData: GameData)
     }
 
-    inner class MovieViewHolder(val binding: EachMovieItemBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class GameViewHolder(val binding: EachGameItemBinding) : RecyclerView.ViewHolder(binding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
-        val binding = EachMovieItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MovieViewHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameViewHolder {
+        val binding = EachGameItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return GameViewHolder(binding)
     }
 
     override fun getItemCount(): Int {
         return list.size
     }
 
-    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: GameViewHolder, position: Int) {
         with(holder) {
             with(list[position]) {
-                binding.movie.text = this.movie!!.name
-                binding.watchDate.text = this.movie!!.date
+                binding.game.text = this.game!!.name
+                binding.watchDate.text = this.game!!.date
 
-                binding.deleteMovie.setOnClickListener {
-                    listener?.onDeleteMovieBtnCLicked(this)
+                binding.deleteGame.setOnClickListener {
+                    listener?.onDeleteGameBtnCLicked(this)
                 }
 
-                binding.editMovie.setOnClickListener {
-                    listener?.onEditMovieBtnClicked(this)
+                binding.editGame.setOnClickListener {
+                    listener?.onEditGameBtnClicked(this)
                 }
             }
         }

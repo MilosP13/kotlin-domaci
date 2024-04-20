@@ -2,16 +2,14 @@ package com.example.kotlinelabapp.fragments
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import com.example.kotlinelabapp.R
 import com.example.kotlinelabapp.databinding.FragmentAddBinding
-import com.example.kotlinelabapp.utilis.Movie
-import com.example.kotlinelabapp.utilis.MovieData
+import com.example.kotlinelabapp.utilis.Game
+import com.example.kotlinelabapp.utilis.GameData
 import com.google.android.material.textfield.TextInputEditText
 import java.text.SimpleDateFormat
 import java.util.*
@@ -20,13 +18,13 @@ import java.util.*
 class AddFragment : DialogFragment() {
 
     interface DialogAddBtnClickListener {
-        fun onSaveMovie(movieName: String, movieNameEt: TextInputEditText, date: String, movieDateEt: TextInputEditText)
-        fun onUpdateMovie(movieData: MovieData, movieNameEt: TextInputEditText, movieDateEt: TextInputEditText )
+        fun onSaveGame(gameName: String, gameNameEt: TextInputEditText, date: String, gameDateEt: TextInputEditText)
+        fun onUpdateGame(gameData: GameData, gameNameEt: TextInputEditText, gameDateEt: TextInputEditText )
     }
 
     private lateinit var binding: FragmentAddBinding
     private lateinit var listener: DialogAddBtnClickListener
-    private var movieData: MovieData? = null
+    private var gameData: GameData? = null
     private val myCalendar= Calendar.getInstance()
 
 
@@ -47,9 +45,9 @@ class AddFragment : DialogFragment() {
         const val TAG = "AddFragment"
 
         @JvmStatic
-        fun newInstance(movieId: String, name: String, date: String) = AddFragment().apply {
+        fun newInstance(gameId: String, name: String, date: String) = AddFragment().apply {
             arguments = Bundle().apply {
-                putString("movieId", movieId)
+                putString("gameId", gameId)
                 putString("name", name)
                 putString("date", date)
             }
@@ -62,20 +60,20 @@ class AddFragment : DialogFragment() {
         if(arguments != null) {
             val name = arguments?.getString("name").toString()
             val date = arguments?.getString("date").toString()
-            val movie = Movie(name,date)
-            movieData = MovieData(arguments?.getString("movieId").toString(), movie)
-            binding.movieNameEt.setText(movie.name)
-            binding.movieDateEt.setText(movie.date)
+            val game = Game(name,date)
+            gameData = GameData(arguments?.getString("gameId").toString(), game)
+            binding.gameNameEt.setText(game.name)
+            binding.gameDateEt.setText(game.date)
         }
 
-        addMovies()
+        addGames()
     }
 
 
 
-    private fun addMovies() {
+    private fun addGames() {
 
-        binding.movieDateEt.setOnClickListener {
+        binding.gameDateEt.setOnClickListener {
             val datePicker = DatePickerDialog.OnDateSetListener{
                 view, year, month, dayOfMonth ->
                 myCalendar.set(Calendar.YEAR,year)
@@ -90,16 +88,16 @@ class AddFragment : DialogFragment() {
         }
 
         binding.btnAdd.setOnClickListener{
-            val newName = binding.movieNameEt.text.toString()
-            val newDate = binding.movieDateEt.text.toString()
+            val newName = binding.gameNameEt.text.toString()
+            val newDate = binding.gameDateEt.text.toString()
 
             if(newName.isNotEmpty() && newDate.isNotEmpty()) {
-                if(movieData == null) {
-                    listener.onSaveMovie(newName, binding.movieNameEt, newDate ,binding.movieDateEt)
+                if(gameData == null) {
+                    listener.onSaveGame(newName, binding.gameNameEt, newDate ,binding.gameDateEt)
                 }else {
-                    val newMovie = Movie(newName, newDate)
-                    movieData?.movie = newMovie
-                    listener.onUpdateMovie(movieData!!, binding.movieNameEt, binding.movieDateEt)
+                    val newGame = Game(newName, newDate)
+                    gameData?.game = newGame
+                    listener.onUpdateGame(gameData!!, binding.gameNameEt, binding.gameDateEt)
                 }
             }else {
                 Toast.makeText(context, "All fields required",Toast.LENGTH_SHORT).show()
@@ -115,7 +113,7 @@ class AddFragment : DialogFragment() {
     private fun updateLabel(myCalendar: Calendar) {
         val myFormat = "dd-MM-yyyy"
         val sdf = SimpleDateFormat(myFormat, Locale.UK)
-        binding.movieDateEt.setText(sdf.format(myCalendar.time))
+        binding.gameDateEt.setText(sdf.format(myCalendar.time))
 
     }
 

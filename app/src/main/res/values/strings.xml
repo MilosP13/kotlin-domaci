@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KotlinElabApp</string>
+    <string name="app_name">KotlinDomaci</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="email">Email</string>
     <string name="register">Register</string>
@@ -7,7 +7,7 @@
     <string name="retype_password">Retype password</string>
     <string name="login">Login</string>
     <string name="noAccount">Dont have an account?</string>
-    <string name="movieName">Movie Name</string>
+    <string name="gameName">Game Name</string>
     <string name="imageUrl">Image URL</string>
-    <string name="addBtn">Add Movie</string>
+    <string name="addBtn">Add Video Game</string>
 </resources>
